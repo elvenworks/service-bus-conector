@@ -9,10 +9,10 @@ import (
 )
 
 type ServiceBusConfig struct {
-	connectionString string
-	queue            string
-	topic            string
-	subscription     string
+	ConnectionString string
+	Queue            string
+	Topic            string
+	Subscription     string
 }
 
 type serviceBus struct {
@@ -29,12 +29,12 @@ func NewServiceBus(config ServiceBusConfig) ServiceBusConnector {
 
 func (serviceBus *serviceBus) Connect() error {
 
-	if serviceBus.config.connectionString == "" {
+	if serviceBus.config.ConnectionString == "" {
 		return errors.New("connection string is required")
 	}
 
 	var err error
-	serviceBus.client, err = azservicebus.NewClientFromConnectionString(serviceBus.config.connectionString, nil)
+	serviceBus.client, err = azservicebus.NewClientFromConnectionString(serviceBus.config.ConnectionString, nil)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (serviceBus *serviceBus) PeakFromQueue(timeout context.Context) error {
 
 	var err error
 	serviceBus.receiver, err = serviceBus.client.NewReceiverForQueue(
-		serviceBus.config.queue,
+		serviceBus.config.Queue,
 		nil,
 	)
 
@@ -64,8 +64,8 @@ func (serviceBus *serviceBus) PeakFromTopic(timeout context.Context) error {
 
 	var err error
 	serviceBus.receiver, err = serviceBus.client.NewReceiverForSubscription(
-		serviceBus.config.topic,
-		serviceBus.config.subscription,
+		serviceBus.config.Topic,
+		serviceBus.config.Subscription,
 		nil,
 	)
 

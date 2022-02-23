@@ -54,14 +54,14 @@ func Test_serviceBus_Connect(t *testing.T) {
 		{
 			name: "Error creating client",
 			fields: fields{
-				config: ServiceBusConfig{connectionString: ""},
+				config: ServiceBusConfig{ConnectionString: ""},
 			},
 			wantErr: true,
 		},
 		{
 			name: "Internal Error creating client",
 			fields: fields{
-				config: ServiceBusConfig{connectionString: "qqr"},
+				config: ServiceBusConfig{ConnectionString: "qqr"},
 				client: &azuremocks.ServicBusClient{},
 			},
 			wantErr: true,
@@ -154,7 +154,7 @@ func Test_serviceBus_PeakFromQueue(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 
 			var receiveroptions *azservicebus.ReceiverOptions
-			tt.fields.client.On("NewReceiverForQueue", tt.fields.config.queue, receiveroptions).Return(&azservicebus.Receiver{}, tt.errorNewReceiverForQueue)
+			tt.fields.client.On("NewReceiverForQueue", tt.fields.config.Queue, receiveroptions).Return(&azservicebus.Receiver{}, tt.errorNewReceiverForQueue)
 
 			serviceBus := &serviceBus{
 				config:   tt.fields.config,
@@ -200,7 +200,7 @@ func Test_serviceBus_PeakFromTopic(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 
 			var receiveroptions *azservicebus.ReceiverOptions
-			tt.fields.client.On("NewReceiverForSubscription", tt.fields.config.topic, tt.fields.config.subscription, receiveroptions).Return(tt.fields.receiver, tt.errorNewReceiverForSubscription)
+			tt.fields.client.On("NewReceiverForSubscription", tt.fields.config.Topic, tt.fields.config.Subscription, receiveroptions).Return(tt.fields.receiver, tt.errorNewReceiverForSubscription)
 
 			serviceBus := &serviceBus{
 				config:   tt.fields.config,
